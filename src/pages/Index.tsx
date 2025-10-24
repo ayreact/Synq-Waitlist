@@ -37,7 +37,7 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-card/50 backdrop-blur-sm border border-border">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-opacity-10 backdrop-blur-sm border-2 border-border">
               <span className="text-sm font-medium text-foreground">
                 Join the Waitlist - Early Access Coming Soon
               </span>
@@ -82,7 +82,7 @@ const Index = () => {
                   <p className="text-muted-foreground max-w-xl mx-auto">
                     Join our waitlist to get early access to Synq, receive
                     testnet tokens, and be part of the future of decentralized
-                    social on Quai Network
+                    social network on Quai
                   </p>
                 </div>
                 <WaitlistForm />
