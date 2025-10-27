@@ -97,7 +97,7 @@ const WaitlistForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="walletAddress" className="text-foreground font-medium">
-            Metamask Wallet Address
+            Pelagus/Metamask Wallet Address
           </Label>
           <Input
             id="walletAddress"
@@ -113,10 +113,19 @@ const WaitlistForm = () => {
             Testnet tokens will be sent to this address
           </p>
           <a
-            href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
+            href="https://chromewebstore.google.com/detail/pelagus/nhccebmfjcbhghphpclcfdkkekheegop"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary transition-colors mt-2"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Get Pelagus Extension
+          </a>
+          <a
+            href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary transition-colors mt-2 md:ml-4"
           >
             <ExternalLink className="w-4 h-4" />
             Get Metamask Extension
