@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +22,23 @@ const WaitlistForm = () => {
     hasLaptop: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [waitlistClosed, setWaitlistClosed] = useState(false);
+
+  const closingDate = new Date("2025-11-01T00:00:00");
+
+  useEffect(() => {
+    const checkWaitlistStatus = () => {
+      const now = new Date();
+      if (now >= closingDate) {
+        setWaitlistClosed(true);
+      } else {
+        setWaitlistClosed(false);
+      }
+    };
+
+    // Check status on mount
+    checkWaitlistStatus();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,114 +92,117 @@ const WaitlistForm = () => {
 
   return (
     <div className="w-full max-w-xl mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-foreground font-medium">
-            Email Address
-          </Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="your.email@example.com"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="bg-card border-border focus:border-primary transition-colors"
-          />
-          <p className="text-sm text-muted-foreground">
-            Your access credentials when Synq goes live
+      {waitlistClosed ? (
+        <div className="flex flex-col items-center justify-center p-8 bg-card rounded-lg shadow-lg text-center space-y-4">
+          <h2 className="text-3xl font-extrabold bg-gradient-primary bg-clip-text text-transparent md:text-4xl lg:text-5xl">
+            Waitlist Closed!
+          </h2>
+          <p className="text-muted-foreground max-w-md">
+            Thank you for your interest! We've received an overwhelming amount of responses.
+            Please follow our social media channels for future updates and announcements.
           </p>
         </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-foreground font-medium">
+              Email Address
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="your.email@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="bg-card border-border focus:border-primary transition-colors"
+            />
+            <p className="text-sm text-muted-foreground">
+              Your access credentials when Synq goes live
+            </p>
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="walletAddress" className="text-foreground font-medium">
-            Pelagus/Metamask Wallet Address
-          </Label>
-          <Input
-            id="walletAddress"
-            name="walletAddress"
-            type="text"
-            placeholder="0x..."
-            value={formData.walletAddress}
-            onChange={handleChange}
-            required
-            className="bg-card border-border focus:border-primary transition-colors font-mono text-sm"
-          />
-          <p className="text-sm text-muted-foreground">
-            Testnet tokens will be sent to this address
-          </p>
-          <a
-            href="https://chromewebstore.google.com/detail/pelagus/nhccebmfjcbhghphpclcfdkkekheegop"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary transition-colors mt-2"
+          <div className="space-y-2">
+            <Label htmlFor="walletAddress" className="text-foreground font-medium">
+              Pelagus Wallet Address
+            </Label>
+            <Input
+              id="walletAddress"
+              name="walletAddress"
+              type="text"
+              placeholder="0x..."
+              value={formData.walletAddress}
+              onChange={handleChange}
+              required
+              className="bg-card border-border focus:border-primary transition-colors font-mono text-sm"
+            />
+            <p className="text-sm text-muted-foreground">
+              Testnet tokens will be sent to this address
+            </p>
+            <a
+              href="https://chromewebstore.google.com/detail/pelagus/nhccebmfjcbhghphpclcfdkkekheegop"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary transition-colors mt-2"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Get Pelagus Extension
+            </a>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="telegram" className="text-foreground font-medium">
+              Telegram Handle
+            </Label>
+            <Input
+              id="telegram"
+              name="telegram"
+              type="text"
+              placeholder="@username"
+              value={formData.telegram}
+              onChange={handleChange}
+              required
+              className="bg-card border-border focus:border-primary transition-colors"
+            />
+            <p className="text-sm text-muted-foreground">
+              For direct updates and community access
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="hasLaptop" className="text-foreground font-medium">
+              Do you have a laptop?
+            </Label>
+            <Select
+              value={formData.hasLaptop}
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, hasLaptop: value }))
+              }
+              required
+            >
+              <SelectTrigger className="bg-card border-border focus:border-primary transition-colors">
+                <SelectValue placeholder="Select an option" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="yes">Yes</SelectItem>
+                <SelectItem value="no">No</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-sm text-muted-foreground">
+              Beta version is desktop-only
+            </p>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-lg h-12 font-heading font-semibold shadow-glow"
           >
-            <ExternalLink className="w-4 h-4" />
-            Get Pelagus Extension
-          </a>
-          <a
-            href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-primary hover:text-secondary transition-colors mt-2 md:ml-4"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Get Metamask Extension
-          </a>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="telegram" className="text-foreground font-medium">
-            Telegram Handle
-          </Label>
-          <Input
-            id="telegram"
-            name="telegram"
-            type="text"
-            placeholder="@username"
-            value={formData.telegram}
-            onChange={handleChange}
-            required
-            className="bg-card border-border focus:border-primary transition-colors"
-          />
-          <p className="text-sm text-muted-foreground">
-            For direct updates and community access
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="hasLaptop" className="text-foreground font-medium">
-            Do you have a laptop?
-          </Label>
-          <Select
-            value={formData.hasLaptop}
-            onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, hasLaptop: value }))
-            }
-            required
-          >
-            <SelectTrigger className="bg-card border-border focus:border-primary transition-colors">
-              <SelectValue placeholder="Select an option" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="yes">Yes</SelectItem>
-              <SelectItem value="no">No</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-sm text-muted-foreground">
-            Beta version is desktop-only
-          </p>
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-lg h-12 font-heading font-semibold shadow-glow"
-        >
-          {isSubmitting ? "Joining..." : "Join Waitlist"}
-        </Button>
-      </form>
+            {isSubmitting ? "Joining..." : "Join Waitlist"}
+          </Button>
+        </form>
+      )}
     </div>
   );
 };

@@ -37,10 +37,31 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-opacity-10 backdrop-blur-sm border-2 border-border">
+            <div className="inline-flex items-center   gap-2 px-4 py-2 rounded bg-opacity-10 backdrop-blur-sm border-2 border-border">
               <span className="text-sm font-medium text-foreground">
                 Join the Waitlist - Early Access Coming Soon
               </span>
+              {/* Social Media Buttons */}
+              <div className="flex gap-4 ml-4">
+                <a
+                  href="https://t.me/synq_web3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors duration-200"
+                  aria-label="Join our Telegram"
+                >
+                  <i className="fab fa-telegram fa-2x"></i>
+                </a>
+                <a
+                  href="https://x.com/synq_web3"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors duration-200"
+                  aria-label="Follow us on X"
+                >
+                  <i className="fab fa-x-twitter fa-2x"></i>
+                </a>
+              </div>
             </div>
           </div>
         </section>
